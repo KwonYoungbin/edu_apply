@@ -5,5 +5,4 @@ class Course(models.Model):
     title = models.CharField(max_length=200)
     started_at = models.DateTimeField(null=False)
     ended_at = models.DateTimeField(null=False)
-    status = models.CharField(max_length=1)
     created_at = models.DateTimeField(auto_now_add=True)
