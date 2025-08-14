@@ -23,9 +23,16 @@ class UserRegisterSerializer(CommonSerializers):
     
 
 
-class UserLoginSerializer(serializers.Serializer):
+class UserLoginSerializer(CommonSerializers):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = User
+        fields = ('id', 'email', 'password')
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
 
     def validate(self, data):
         try:

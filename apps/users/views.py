@@ -22,7 +22,7 @@ class UserRegisterAPIView(generics.CreateAPIView):
 
 class UserLoginAPIView(generics.GenericAPIView):
     permission_classes = [AllowAny]
-
+    
     serializer_class = UserLoginSerializer
 
     def post(self, request, *args, **kwargs):
