@@ -1,4 +1,3 @@
-from rest_framework import serializers
 from ..serializers import CommonSerializers
 from apps.tests.models import Test
 

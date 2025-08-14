@@ -1,6 +1,8 @@
 from rest_framework import generics
 from django.utils import timezone
+from django.db.models import Count
 from apps.courses.models import Course
+from apps.course_registrations.models import CourseRegistration
 from .serializers import CourseListSerializer
 
 class CourseListAPIView(generics.ListAPIView):
@@ -12,17 +14,17 @@ class CourseListAPIView(generics.ListAPIView):
 
         # 검색
         status = self.request.query_params.get('status')
-        if status == 'available':  # 현재 시작 전인 시험만
+        if status == 'available':  # 현재 시작 전인 수업만
             queryset = queryset.filter(started_at__gt=now)
-        elif status == 'ongoing':  # 진행중인 시험
+        elif status == 'ongoing':  # 진행중인 수업
             queryset = queryset.filter(started_at__lte=now, ended_at__gte=now)
-        elif status == 'finished':  # 종료된 시험
+        elif status == 'finished':  # 종료된 수업
             queryset = queryset.filter(ended_at__lt=now)
             
         # 정렬
         sort = self.request.query_params.get('sort')
-        if sort == 'popular': #응시자 많은 순 구현 필요
-            queryset = queryset.order_by('-id')
+        if sort == 'popular':
+            queryset = queryset.annotate(num_registrations=Count('courseregistration')).order_by('-num_registrations')
         else:
             queryset = queryset.order_by('created_at')
 

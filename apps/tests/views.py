@@ -1,6 +1,8 @@
 from rest_framework import generics
 from django.utils import timezone
+from django.db.models import Count
 from apps.tests.models import Test
+from apps.test_registrations.models import TestRegistration
 from .serializers import TestListSerializer
 
 class TestListAPIView(generics.ListAPIView):
@@ -21,8 +23,8 @@ class TestListAPIView(generics.ListAPIView):
             
         # 정렬
         sort = self.request.query_params.get('sort')
-        if sort == 'popular': #응시자 많은 순 구현 필요
-            queryset = queryset.order_by('-id')
+        if sort == 'popular':
+            queryset = queryset.annotate(num_registrations=Count('testregistration')).order_by('-num_registrations')
         else:
             queryset = queryset.order_by('created_at')
 
