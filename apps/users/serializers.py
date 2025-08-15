@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth import authenticate
 from django.contrib.auth.hashers import check_password
 from ..serializers import CommonSerializers
 from apps.users.models import User
@@ -36,12 +35,12 @@ class UserLoginSerializer(CommonSerializers):
 
     def validate(self, data):
         try:
-            user = User.objects.get(email=data.get("email"))
+            user = User.objects.get(email=data.get('email'))
         except User.DoesNotExist:
-            raise serializers.ValidationError("등록되지 않은 이메일입니다.")
+            raise serializers.ValidationError('등록되지 않은 이메일입니다.')
         
-        if not check_password(data.get("password"), user.password):
-            raise serializers.ValidationError("비밀번호가 올바르지 않습니다.")
+        if not check_password(data.get('password'), user.password):
+            raise serializers.ValidationError('비밀번호가 올바르지 않습니다.')
         
         refresh = RefreshToken.for_user(user)
         return {

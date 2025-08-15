@@ -3,8 +3,8 @@ from apps.users.models import User
 
 class Payment(models.Model):
     ITEM_TYPE_CHOICES = [
-        ("T", "시험"),
-        ("C", "수업"),
+        ('T', '시험'),
+        ('C', '수업'),
     ]
 
     id = models.BigAutoField(primary_key=True)
@@ -14,7 +14,7 @@ class Payment(models.Model):
     )
     item_type = models.CharField(max_length=1, choices=ITEM_TYPE_CHOICES)  # 'T': Test, 'C': Course
     item_id = models.BigIntegerField()
-    item_title = models.CharField(max_length=200)
+    item_title = models.CharField(max_length=200, null=True)
     amount = models.IntegerField()
     method = models.CharField(max_length=20)
     status = models.CharField(max_length=1)     # 'P': Paid, 'C': Canceled

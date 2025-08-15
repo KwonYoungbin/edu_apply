@@ -1,8 +1,8 @@
 from rest_framework import generics, status
-from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from apps.users.models import User
 from .serializers import UserRegisterSerializer, UserLoginSerializer
+from ..responses import success
 
 class UserRegisterAPIView(generics.CreateAPIView):
     permission_classes = [AllowAny]
@@ -14,10 +14,10 @@ class UserRegisterAPIView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
-        return Response({
-            "id": user.id,
-            "email": user.email
-        }, status=status.HTTP_201_CREATED)
+        return success('회원가입이 완료되었습니다.', {
+            'id': user.id,
+            'email': user.email
+        }, code=status.HTTP_201_CREATED)
     
 
 class UserLoginAPIView(generics.GenericAPIView):
@@ -28,4 +28,4 @@ class UserLoginAPIView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        return Response(serializer.validated_data, status=status.HTTP_200_OK)
+        return success('로그인 되었습니다.', serializer.validated_data)

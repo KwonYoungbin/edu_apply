@@ -14,7 +14,7 @@ Django를 기반으로 구현되었으며, PostgreSQL 데이터베이스를 사�
 ---
 
 ## 📑 API 명세서
-### 서버 실행 후 접근
+### 로컬 서버 실행 후 접근
 - http://localhost:8000/swagger/
 - http://127.0.0.1:8000/swagger/
 

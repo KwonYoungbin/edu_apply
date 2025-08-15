@@ -11,7 +11,6 @@ class TestListAPIView(generics.ListAPIView):
         now = timezone.now()
         queryset = Test.objects.all()
 
-        # 검색
         status = self.request.query_params.get('status')
         if status == 'available':  # 현재 시작 전인 시험만
             queryset = queryset.filter(start_at__gt=now)
@@ -20,7 +19,6 @@ class TestListAPIView(generics.ListAPIView):
         elif status == 'finished':  # 종료된 시험
             queryset = queryset.filter(end_at__lt=now)
             
-        # 정렬
         sort = self.request.query_params.get('sort')
         if sort == 'popular':
             queryset = queryset.annotate(num_registrations=Count('testregistration')).order_by('-num_registrations')

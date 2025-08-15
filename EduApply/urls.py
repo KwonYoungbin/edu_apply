@@ -29,9 +29,9 @@ from apps.payments.views import PaymentCancelAPIView, PaymentListAPIView
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="시험 응시 및 수업 수강 신청 시스템",  # 원하는 제목 작성
+      title='시험 응시 및 수업 수강 신청 시스템',  # 원하는 제목 작성
       default_version='v1.0.0',  # 애플리케이션의 버전
-      description="시험 응시 및 수업 수강 신청 시스템",  # 설명
+      description='시험 응시 및 수업 수강 신청 시스템',  # 설명
    ),
    public=True,
    permission_classes=(permissions.AllowAny,),
