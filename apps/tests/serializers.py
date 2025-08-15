@@ -5,5 +5,3 @@ class TestListSerializer(CommonSerializers):
     class Meta:
         model = Test
         fields = ('id', 'title', 'start_at', 'end_at', 'created_at')
-
-
