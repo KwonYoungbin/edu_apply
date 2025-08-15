@@ -1,11 +1,11 @@
 from rest_framework import serializers
-from ..serializers import CommonSerializers
+from ..serializers import CommonSerializer, CommonModelSerializer
 from apps.payments.models import Payment
 
-class PaymentCancelSerializer(serializers.Serializer):
+class PaymentCancelSerializer(CommonSerializer):
     pass
 
-class PaymentListSerializer(CommonSerializers):
+class PaymentListSerializer(CommonModelSerializer):
     item_type_display = serializers.CharField(source='get_item_type_display', read_only=True)
     registered_at = serializers.DateTimeField(source='paid_at', read_only=True)
 

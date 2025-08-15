@@ -1,29 +1,7 @@
-from rest_framework import generics
-from django.utils import timezone
-from django.db.models import Count
 from apps.tests.models import Test
 from .serializers import TestListSerializer
+from ..common_views import BaseItemListAPIView
 
-class TestListAPIView(generics.ListAPIView):
+class TestListAPIView(BaseItemListAPIView):
     serializer_class = TestListSerializer
-
-    def get_queryset(self):
-        now = timezone.now()
-        queryset = Test.objects.all()
-
-        status = self.request.query_params.get('status')
-        if status == 'available':  # 현재 시작 전인 시험만
-            queryset = queryset.filter(start_at__gt=now)
-        elif status == 'ongoing':  # 진행중인 시험
-            queryset = queryset.filter(start_at__lte=now, end_at__gte=now)
-        elif status == 'finished':  # 종료된 시험
-            queryset = queryset.filter(end_at__lt=now)
-            
-        sort = self.request.query_params.get('sort')
-        if sort == 'popular':
-            queryset = queryset.annotate(num_registrations=Count('testregistration')).order_by('-num_registrations')
-        else:
-            queryset = queryset.order_by('created_at')
-
-        return queryset
-
+    model_field = Test

@@ -1,10 +1,10 @@
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.hashers import check_password
-from ..serializers import CommonSerializers
+from ..serializers import CommonModelSerializer
 from apps.users.models import User
 
-class UserRegisterSerializer(CommonSerializers):
+class UserRegisterSerializer(CommonModelSerializer):
     password = serializers.CharField(write_only=True, min_length=8, max_length=20)
 
     class Meta:
@@ -22,7 +22,7 @@ class UserRegisterSerializer(CommonSerializers):
     
 
 
-class UserLoginSerializer(CommonSerializers):
+class UserLoginSerializer(CommonModelSerializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
 
