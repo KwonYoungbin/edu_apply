@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'apps.courses',
     'apps.test_registrations',
     'apps.course_registrations',
-    'apps.payments'
+    'apps.payments',
+    'drf_yasg'
 ]
 
 MIDDLEWARE = [
@@ -149,4 +150,15 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'USER_ID_FIELD': 'id',
     'USER_ID_CLAIM': 'user_id',
+}
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header',
+            'description': 'JWT 인증 (예: Bearer <your_token>)'
+        }
+    },
 }

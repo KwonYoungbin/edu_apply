@@ -13,25 +13,32 @@ Django를 기반으로 구현되었으며, PostgreSQL 데이터베이스를 사�
 
 ---
 
+## 📑 API 명세서
+### 서버 실행 후 접근
+- http://localhost:8000/swagger/
+- http://127.0.0.1:8000/swagger/
+
+---
+
 ## 🚀 주요 기능
 
 1. **사용자 인증 및 권한**
-   - 회원 가입
-   - 로그인
+   - 회원 가입(POST /signup)
+   - 로그인(POST /login)
    
 2. **시험 관리**
-   - 시험 목록 조회
-   - 시험 응시 신청
-   - 시험 응시 완료
+   - 시험 목록 조회(GET /tests)
+   - 시험 응시 신청(POST /tests/:id/apply)
+   - 시험 응시 완료(POST /tests/:id/complete)
 
 3. **수업 관리**
-   - 수업 목록 조회
-   - 수업 수강 신청
-   - 수업 수강 완료
+   - 수업 목록 조회(GET /courses)
+   - 수업 수강 신청(POST /courses/:id/enroll)
+   - 수업 수강 완료(POST /courses/:id/complete)
 
 4. **결제**
-   - 결제 내역 조회
-   - 결제 취소
+   - 결제 내역 조회(GET /me/payments)
+   - 결제 취소(POST /payments/:id/cancel)
    
 
 ---
