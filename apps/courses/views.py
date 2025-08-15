@@ -15,11 +15,11 @@ class CourseListAPIView(generics.ListAPIView):
         # 검색
         status = self.request.query_params.get('status')
         if status == 'available':  # 현재 시작 전인 수업만
-            queryset = queryset.filter(started_at__gt=now)
+            queryset = queryset.filter(start_at__gt=now)
         elif status == 'ongoing':  # 진행중인 수업
-            queryset = queryset.filter(started_at__lte=now, ended_at__gte=now)
+            queryset = queryset.filter(start_at__lte=now, end_at__gte=now)
         elif status == 'finished':  # 종료된 수업
-            queryset = queryset.filter(ended_at__lt=now)
+            queryset = queryset.filter(end_at__lt=now)
             
         # 정렬
         sort = self.request.query_params.get('sort')
@@ -28,5 +28,4 @@ class CourseListAPIView(generics.ListAPIView):
         else:
             queryset = queryset.order_by('created_at')
 
-        return queryset
-
+        return queryset   

@@ -8,7 +8,7 @@ from django.db import transaction
 from apps.tests.models import Test
 from apps.test_registrations.models import TestRegistration
 from apps.payments.models import Payment
-from .serializers import TestApplySerializer
+from .serializers import TestApplySerializer, TestCompleteSerializer
 
 class TestApplyAPIView(APIView):
     def post(self, request, id):
@@ -16,7 +16,7 @@ class TestApplyAPIView(APIView):
         now = timezone.now()
 
         # 시험 시작 전에만 응시 가능
-        if now >= test.started_at:
+        if now >= test.start_at:
             return Response({'detail': '이미 시작한 시험은 신청할 수 없습니다.'},
                             status=status.HTTP_400_BAD_REQUEST)
 
@@ -52,3 +52,21 @@ class TestApplyAPIView(APIView):
             )
 
         return Response({'detail': '시험 응시가 완료되었습니다.'}, status=status.HTTP_201_CREATED)
+
+class TestCompleteAPIView(APIView):
+    def post(self, request, id):
+        serializer = TestCompleteSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        try:
+            registration = TestRegistration.objects.get(user=request.user, test=Test.objects.get(id=id))
+            if registration.completed == True:
+                return Response({'detail': '이미 완료한 시험입니다.'}, status=status.HTTP_400_BAD_REQUEST)
+            
+            registration.completed = True
+            registration.save()
+            
+            return Response({'detail': '시험이 완료되었습니다.'}, status=status.HTTP_200_OK)
+
+        except TestRegistration.DoesNotExist:
+            return Response({"detail": "신청 내역이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)       

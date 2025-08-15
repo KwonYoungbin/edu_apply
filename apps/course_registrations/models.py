@@ -13,3 +13,4 @@ class CourseRegistration(models.Model):
         on_delete=models.CASCADE
     )
     registered_at = models.DateTimeField()
+    completed = models.BooleanField(default=False)

@@ -13,3 +13,4 @@ class TestRegistration(models.Model):
         on_delete=models.CASCADE
     )
     registered_at = models.DateTimeField(auto_now_add=True)
+    completed = models.BooleanField(default=False)

@@ -2,7 +2,6 @@ from rest_framework import generics
 from django.utils import timezone
 from django.db.models import Count
 from apps.tests.models import Test
-from apps.test_registrations.models import TestRegistration
 from .serializers import TestListSerializer
 
 class TestListAPIView(generics.ListAPIView):
@@ -15,11 +14,11 @@ class TestListAPIView(generics.ListAPIView):
         # 검색
         status = self.request.query_params.get('status')
         if status == 'available':  # 현재 시작 전인 시험만
-            queryset = queryset.filter(started_at__gt=now)
+            queryset = queryset.filter(start_at__gt=now)
         elif status == 'ongoing':  # 진행중인 시험
-            queryset = queryset.filter(started_at__lte=now, ended_at__gte=now)
+            queryset = queryset.filter(start_at__lte=now, end_at__gte=now)
         elif status == 'finished':  # 종료된 시험
-            queryset = queryset.filter(ended_at__lt=now)
+            queryset = queryset.filter(end_at__lt=now)
             
         # 정렬
         sort = self.request.query_params.get('sort')
