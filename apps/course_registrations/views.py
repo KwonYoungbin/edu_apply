@@ -45,6 +45,7 @@ class CourseApplyAPIView(APIView):
                 user=request.user,
                 item_type='C',  # 'T': Test, 'C': Course
                 item_id=course.id,
+                item_title=course.title,
                 amount=amount,
                 method=method,
                 status='P',     # 'P': Paid, 'C': Canceled
