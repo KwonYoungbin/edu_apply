@@ -20,6 +20,7 @@ from apps.tests.views import TestListAPIView
 from apps.test_registrations.views import TestApplyAPIView, TestCompleteAPIView
 from apps.courses.views import CourseListAPIView
 from apps.course_registrations.views import CourseApplyAPIView, CourseCompleteAPIView
+from apps.payments.views import PaymentCancelAPIView, PaymentListAPIView
 
 urlpatterns = [
     path('signup', UserRegisterAPIView.as_view(), name='user-signup'),
@@ -30,4 +31,6 @@ urlpatterns = [
     path('courses', CourseListAPIView.as_view(), name='course-list'),
     path('courses/<int:id>/enroll', CourseApplyAPIView.as_view(), name='course-enroll'),
     path('courses/<int:id>/complete', CourseCompleteAPIView.as_view(), name='course-complete'),
+    path('me/payments', PaymentListAPIView.as_view(), name='payment-list'),
+    path('payments/<int:id>/cancel', PaymentCancelAPIView.as_view(), name='payment-cancel')
 ]

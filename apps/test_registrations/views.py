@@ -69,4 +69,4 @@ class TestCompleteAPIView(APIView):
             return Response({'detail': '시험이 완료되었습니다.'}, status=status.HTTP_200_OK)
 
         except TestRegistration.DoesNotExist:
-            return Response({"detail": "신청 내역이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)       
+            return Response({"detail": "신청 내역이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)

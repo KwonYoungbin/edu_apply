@@ -2,13 +2,12 @@ from rest_framework import generics
 from django.utils import timezone
 from django.db.models import Count
 from apps.courses.models import Course
-from apps.course_registrations.models import CourseRegistration
 from .serializers import CourseListSerializer
 
 class CourseListAPIView(generics.ListAPIView):
     serializer_class = CourseListSerializer
-
     def get_queryset(self):
+
         now = timezone.now()
         queryset = Course.objects.all()
 

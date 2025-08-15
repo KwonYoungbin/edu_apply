@@ -41,4 +41,3 @@ Django를 기반으로 구현되었으며, PostgreSQL 데이터베이스를 사�
 ### 1. 저장소 클론
 ```bash
 git clone https://github.com/KwonYoungbin/edu_apply.git
-
