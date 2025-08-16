@@ -1,5 +1,6 @@
 from rest_framework import status, generics
 from rest_framework.views import APIView
+from rest_framework.generics import GenericAPIView
 from rest_framework.exceptions import ValidationError
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -111,7 +112,7 @@ class PaymentListAPIView(generics.ListAPIView):
         return queryset
     
 
-class BulkPaymentAPIView(APIView):
+class BulkPaymentAPIView(GenericAPIView):
     DISCOUNT_RULES = {
         2: 0.05,
         3: 0.10,
@@ -119,11 +120,6 @@ class BulkPaymentAPIView(APIView):
         5: 0.20
     }
     MAX_DISCOUNT = 0.20
-
-    @swagger_auto_schema(
-        request_body=BulkPaymentSerializer,
-        responses={201: openapi.Response("결제 완료")}
-    )
 
     def get_object_and_validate(self, user, target_type, target_id, now):
         if target_type == 'course':
@@ -144,9 +140,10 @@ class BulkPaymentAPIView(APIView):
             return 'T', test.title
         else:
             raise ValueError("잘못된 target_type 입니다.")
-
-    def post(self, request):
-        serializer = BulkPaymentSerializer(data=request.data)
+        
+    serializer_class = BulkPaymentSerializer
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         user = request.user
