@@ -1,15 +1,15 @@
 #!/bin/sh
 
-# 마이그레이션 실행
+echo "Waiting for database and applying migrations..."
+
+# DB가 준비될 때까지 반복 시도
 until python manage.py migrate --noinput; do
-  echo "Waiting for database..."
+  echo "Database not ready yet. Waiting..."
   sleep 1
 done
 
-echo "DB ready"
-
-# 정적 파일 수집
+echo "Collecting static files..."
 python manage.py collectstatic --noinput
 
-# 서버 실행 (gunicorn 사용)
-gunicorn EduApply.wsgi:application --bind 0.0.0.0:8000
+echo "Starting Gunicorn..."
+exec gunicorn EduApply.wsgi:application --bind 0.0.0.0:8000
