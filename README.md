@@ -14,9 +14,15 @@ Django를 기반으로 구현되었으며, PostgreSQL 데이터베이스를 사�
 ---
 
 ## 📑 API 명세서
-### 로컬 서버 실행 후 접근
+### 1. 로컬 서버 실행 후 접근
 - http://localhost:8000/swagger/
 - http://127.0.0.1:8000/swagger/
+
+### 2. API 호출
+- 회원가입(/signup) -> 로그인(/login) 호출
+- 로그인 응답값의 access값을 화면 상단의 Authorize 버튼 클릭 하여 입력
+   - <span style="color:#fff5b1">**토큰 값 입력시에는 앞에 "Bearer " 입력 필요**</span>
+   - <span style="color:#fff5b1">**토큰 유효 시간: 1시간**</span>
 
 ---
 
