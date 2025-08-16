@@ -1,5 +1,7 @@
 from rest_framework import generics, status
 from rest_framework.views import APIView
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.db import transaction
@@ -10,6 +12,23 @@ from .responses import success, error
 
 class BaseItemListAPIView(generics.ListAPIView):
     model_field = None
+
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter(
+                'status',
+                openapi.IN_QUERY,
+                description="결제 상태 (paid: 결제 완료, cancelled: 취소됨)",
+                type=openapi.TYPE_STRING
+            ),
+            openapi.Parameter(
+                'sort',
+                openapi.IN_QUERY,
+                description="조회 시작일 (YYYY-MM-DD)",
+                type=openapi.TYPE_STRING
+            ),
+        ]
+    )
 
     def get_queryset(self):
         if not self.model_field:

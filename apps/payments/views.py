@@ -1,6 +1,8 @@
 from rest_framework import status, generics
 from rest_framework.views import APIView
 from rest_framework.exceptions import ValidationError
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 from datetime import datetime
 from django.utils import timezone
 from django.db import transaction
@@ -47,6 +49,31 @@ class PaymentCancelAPIView(APIView):
 
 class PaymentListAPIView(generics.ListAPIView):
     serializer_class = PaymentListSerializer
+
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter(
+                'status',
+                openapi.IN_QUERY,
+                description="결제 상태 (paid: 결제 완료, cancelled: 취소됨)",
+                type=openapi.TYPE_STRING
+            ),
+            openapi.Parameter(
+                'from',
+                openapi.IN_QUERY,
+                description="조회 시작일 (YYYY-MM-DD)",
+                type=openapi.TYPE_STRING,
+                format="date"
+            ),
+            openapi.Parameter(
+                'to',
+                openapi.IN_QUERY,
+                description="조회 종료일 (YYYY-MM-DD)",
+                type=openapi.TYPE_STRING,
+                format="date"
+            ),
+        ]
+    )
 
     def get_queryset(self):
         queryset = Payment.objects.filter(user=self.request.user)
