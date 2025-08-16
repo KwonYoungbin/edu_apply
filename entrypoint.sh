@@ -1,5 +1,8 @@
 #!/bin/sh
 
+echo "Generating migrations..."
+python manage.py makemigrations --noinput
+
 echo "Waiting for database and applying migrations..."
 
 # DB가 준비될 때까지 반복 시도
