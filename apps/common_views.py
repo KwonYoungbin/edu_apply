@@ -28,7 +28,7 @@ class BaseItemListAPIView(generics.ListAPIView):
 
         sort = self.request.query_params.get('sort')
         if sort == 'popular':
-            queryset = queryset.annotate(num_registrations=Count(f'{self.model_field.__name__.lower()}testregistration')).order_by('-num_registrations', 'created_at')
+            queryset = queryset.annotate(num_registrations=Count(f'{self.model_field.__name__.lower()}registration')).order_by('-num_registrations', 'created_at')
             # queryset = queryset.annotate(num_registrations=Count('testregistration')).order_by('-num_registrations', 'created_at')
         else:
             queryset = queryset.order_by('created_at')
