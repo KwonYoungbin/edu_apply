@@ -122,6 +122,7 @@ class BulkPaymentAPIView(APIView):
 
     @swagger_auto_schema(
         request_body=BulkPaymentSerializer,
+        responses={201: openapi.Response("결제 완료")}
     )
 
     def get_object_and_validate(self, user, target_type, target_id, now):
