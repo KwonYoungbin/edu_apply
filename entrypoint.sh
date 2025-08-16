@@ -1,5 +1,12 @@
 #!/bin/sh
 
+find . -path "*/migrations" -type d | while read dir; do
+    if [ ! -f "$dir/__init__.py" ]; then
+        touch "$dir/__init__.py"
+        echo "Created $dir/__init__.py"
+    fi
+done
+
 echo "Generating migrations..."
 python manage.py makemigrations --noinput
 
