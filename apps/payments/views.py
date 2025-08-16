@@ -75,6 +75,9 @@ class PaymentListAPIView(generics.ListAPIView):
         ]
     )
 
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
     def get_queryset(self):
         queryset = Payment.objects.filter(user=self.request.user)
 

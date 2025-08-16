@@ -18,17 +18,20 @@ class BaseItemListAPIView(generics.ListAPIView):
             openapi.Parameter(
                 'status',
                 openapi.IN_QUERY,
-                description="결제 상태 (paid: 결제 완료, cancelled: 취소됨)",
+                description="검색 조건 (paid: 결제 완료, cancelled: 취소됨)",
                 type=openapi.TYPE_STRING
             ),
             openapi.Parameter(
                 'sort',
                 openapi.IN_QUERY,
-                description="조회 시작일 (YYYY-MM-DD)",
+                description="정렬 조건 (created: 생성일순(default), popular: 응시자 또는 수강자 많은 순)",
                 type=openapi.TYPE_STRING
             ),
         ]
     )
+
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
         if not self.model_field:
