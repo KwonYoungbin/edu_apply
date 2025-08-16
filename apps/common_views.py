@@ -18,7 +18,7 @@ class BaseItemListAPIView(generics.ListAPIView):
             openapi.Parameter(
                 'status',
                 openapi.IN_QUERY,
-                description="검색 조건 (paid: 결제 완료, cancelled: 취소됨)",
+                description="검색 조건 (available: 시작 전, ongoing: 진행중, finished: 종료)",
                 type=openapi.TYPE_STRING
             ),
             openapi.Parameter(
