@@ -7,9 +7,11 @@ from datetime import datetime
 from django.utils import timezone
 from django.db import transaction
 from apps.payments.models import Payment
+from apps.tests.models import Test
+from apps.courses.models import Course
 from apps.test_registrations.models import TestRegistration
 from apps.course_registrations.models import CourseRegistration
-from .serializers import PaymentCancelSerializer, PaymentListSerializer
+from .serializers import PaymentCancelSerializer, PaymentListSerializer, BulkPaymentSerializer
 from ..responses import success, error
 
 
@@ -107,3 +109,84 @@ class PaymentListAPIView(generics.ListAPIView):
         
 
         return queryset
+    
+
+class BulkPaymentAPIView(APIView):
+    DISCOUNT_RULES = {
+        2: 0.05,
+        3: 0.10,
+        4: 0.15,
+        5: 0.20
+    }
+    MAX_DISCOUNT = 0.20
+
+    def get_object_and_validate(self, user, target_type, target_id, now):
+        if target_type == 'course':
+            course = Course.objects.get(id=target_id)
+            if now >= course.start_at:
+                raise ValueError("이미 시작한 수업은 신청할 수 없습니다.")
+            if CourseRegistration.objects.filter(user=user, course=course).exists():
+                raise ValueError("이미 결제한 수업입니다.")
+            CourseRegistration.objects.create(user=user, course=course)
+            return 'C', course.title
+        elif target_type == 'test':
+            test = Test.objects.get(id=target_id)
+            if now >= test.start_at:
+                raise ValueError("이미 시작한 시험은 신청할 수 없습니다.")
+            if TestRegistration.objects.filter(user=user, test=test).exists():
+                raise ValueError("이미 신청한 시험입니다.")
+            TestRegistration.objects.create(user=user, test=test)
+            return 'T', test.title
+        else:
+            raise ValueError("잘못된 target_type 입니다.")
+
+    def post(self, request):
+        serializer = BulkPaymentSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        user = request.user
+        payment_method = serializer.validated_data['payment_method']
+        items = serializer.validated_data['items']
+
+        total_amount = 0
+        payment_objects = []
+        now = timezone.now()
+
+        try:
+            with transaction.atomic():
+                for item in items:
+                    item_type, title = self.get_object_and_validate(
+                        user, item['target_type'], item['target_id'], now
+                    )
+
+                    payment = Payment(
+                        user=user,
+                        item_type=item_type,
+                        item_id=item['target_id'],
+                        item_title=title,
+                        amount=item['amount'],
+                        method=payment_method,
+                        paid_at=now,
+                        original_price=item['amount'],
+                    )
+
+                    payment_objects.append(payment)
+                    total_amount += payment.amount
+                
+                num_items = len(payment_objects)
+                discount_percent = self.DISCOUNT_RULES.get(num_items, self.MAX_DISCOUNT if num_items >= 5 else 0)
+                discounted_total = int(total_amount * (1 - discount_percent))
+
+                for payment in payment_objects:
+                    payment.amount = int(payment.original_price * (1 - discount_percent))
+                    payment.discounted_price = payment.original_price - payment.amount
+                    payment.save()
+
+                
+            return success('결제가 완료되었습니다', {"total_amount": total_amount,
+                "discount_percent": discount_percent * 100,
+                "final_amount": discounted_total}, status.HTTP_201_CREATED)
+        except (Test.DoesNotExist, Course.DoesNotExist):
+            return error('존재하지 않는 수업 또는 시험 ID가 포함되어 있습니다.', code=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return error(str(e))

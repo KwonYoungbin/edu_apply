@@ -106,7 +106,6 @@ class BaseApplyAPIView(APIView):
                 item_title=obj.title,
                 amount=amount,
                 method=method,
-                status='P',
                 paid_at=now,
             )
 

@@ -22,3 +22,12 @@ class PaymentListSerializer(CommonModelSerializer):
             'status',
             'registered_at'
         ]
+
+class BulkPaymentItemSerializer(CommonSerializer):
+    target_type = serializers.ChoiceField(choices=[('test', '시험'), ('course', '수업')])
+    target_id = serializers.IntegerField()
+    amount = serializers.IntegerField()
+
+class BulkPaymentSerializer(CommonSerializer):
+    payment_method = serializers.CharField(max_length=20)
+    items = BulkPaymentItemSerializer(many=True)

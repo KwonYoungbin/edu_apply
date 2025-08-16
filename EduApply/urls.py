@@ -25,7 +25,7 @@ from apps.tests.views import TestListAPIView
 from apps.test_registrations.views import TestApplyAPIView, TestCompleteAPIView
 from apps.courses.views import CourseListAPIView
 from apps.course_registrations.views import CourseApplyAPIView, CourseCompleteAPIView
-from apps.payments.views import PaymentCancelAPIView, PaymentListAPIView
+from apps.payments.views import PaymentCancelAPIView, PaymentListAPIView, BulkPaymentAPIView
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -49,6 +49,7 @@ urlpatterns = [
     path('courses/<int:id>/complete', CourseCompleteAPIView.as_view(), name='course-complete'),
     path('me/payments', PaymentListAPIView.as_view(), name='payment-list'),
     path('payments/<int:id>/cancel', PaymentCancelAPIView.as_view(), name='payment-cancel'),
+    path('bulk/payment/apply', BulkPaymentAPIView.as_view(), name='bulk-payment-apply'),
 
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ]

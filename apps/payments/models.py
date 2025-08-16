@@ -17,6 +17,9 @@ class Payment(models.Model):
     item_title = models.CharField(max_length=200, null=True)
     amount = models.IntegerField()
     method = models.CharField(max_length=20)
-    status = models.CharField(max_length=1)     # 'P': Paid, 'C': Canceled
+    status = models.CharField(max_length=1, default='P')     # 'P': Paid, 'C': Canceled
     paid_at = models.DateTimeField(auto_now_add=True)
     canceled_at = models.DateTimeField(null=True)
+
+    original_price = models.IntegerField(null=True)
+    discounted_price = models.IntegerField(null=True)
