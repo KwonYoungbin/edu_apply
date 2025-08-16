@@ -1,6 +1,6 @@
 #!/bin/sh
 
-find . -path "*/migrations" -type d | while read dir; do
+find . -path "*/apps/*/migrations" -type d | while read dir; do
     if [ ! -f "$dir/__init__.py" ]; then
         touch "$dir/__init__.py"
         echo "Created $dir/__init__.py"
