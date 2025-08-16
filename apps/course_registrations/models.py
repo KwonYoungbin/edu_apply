@@ -12,5 +12,5 @@ class CourseRegistration(models.Model):
         Course,
         on_delete=models.CASCADE
     )
-    registered_at = models.DateTimeField()
+    registered_at = models.DateTimeField(auto_now_add=True)
     completed = models.BooleanField(default=False)
