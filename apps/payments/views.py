@@ -1,6 +1,6 @@
 from rest_framework import status, generics
-from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.exceptions import ValidationError
 from django.utils import timezone
 from django.db import transaction
 from apps.payments.models import Payment
@@ -59,9 +59,13 @@ class PaymentListAPIView(generics.ListAPIView):
         from_date = self.request.query_params.get('from')
         to_date = self.request.query_params.get('to')
 
-        if from_date:
-            queryset = queryset.filter(paid_at__date__gte=from_date)
-        if to_date:
-            queryset = queryset.filter(paid_at__date__lte=to_date)
+        try:
+            if from_date:
+                queryset = queryset.filter(paid_at__date__gte=from_date)
+            if to_date:
+                queryset = queryset.filter(paid_at__date__lte=to_date)
+        except (ValueError, ValidationError):
+            raise ValidationError({"날짜 형식이 아닙니다. 날짜 형식은 YYYY-MM-DD 이어야 합니다."})
+        
 
         return queryset
