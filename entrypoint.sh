@@ -1,15 +1,12 @@
 #!/bin/sh
 
-# DB가 준비될 때까지 대기
-echo "Waiting for postgres..."
-while ! nc -z $DB_HOST $DB_PORT; do
-  sleep 0.5
+# 마이그레이션 실행
+until python manage.py migrate --noinput; do
+  echo "Waiting for database..."
+  sleep 1
 done
 
-echo "PostgreSQL started"
-
-# 마이그레이션 실행
-python manage.py migrate --noinput
+echo "DB ready"
 
 # 정적 파일 수집
 python manage.py collectstatic --noinput

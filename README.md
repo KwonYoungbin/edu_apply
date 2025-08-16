@@ -7,9 +7,9 @@ Django를 기반으로 구현되었으며, PostgreSQL 데이터베이스를 사�
 
 ## 📌 기술 스택
 
-- **언어**: Python 3.13.5
+- **언어**: Python 3.13.x
 - **프레임워크**: Django 5.2.5
-- **데이터베이스**: PostgreSQL 14.18
+- **데이터베이스**: PostgreSQL 14.xx
 
 ---
 
@@ -48,3 +48,9 @@ Django를 기반으로 구현되었으며, PostgreSQL 데이터베이스를 사�
 ### 1. 저장소 클론
 ```bash
 git clone https://github.com/KwonYoungbin/edu_apply.git
+```
+
+### 2. 저장소 클론
+```bash
+cd edu_apply
+docker-compose up --build
