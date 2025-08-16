@@ -45,7 +45,7 @@ Django를 기반으로 구현되었으며, PostgreSQL 데이터베이스를 사�
 4. **결제**
    - 결제 내역 조회(GET /me/payments)
    - 결제 취소(POST /payments/:id/cancel)
-   
+   - 수업/시험 동시 결제(POST /bulk/payment/apply)
 
 ---
 

@@ -120,6 +120,10 @@ class BulkPaymentAPIView(APIView):
     }
     MAX_DISCOUNT = 0.20
 
+    @swagger_auto_schema(
+        request_body=BulkPaymentSerializer,
+    )
+
     def get_object_and_validate(self, user, target_type, target_id, now):
         if target_type == 'course':
             course = Course.objects.get(id=target_id)
