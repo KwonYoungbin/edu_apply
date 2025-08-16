@@ -93,7 +93,7 @@ brew install postgresql
 psql -h localhost -p 5433 -U root -d edu_apply
 
 # 2. 초기 데이터 SQL 파일 적용
-# [init_data.sql 보기](init_data.sql)
+[init_data.sql 보기](init_data.sql)
 # psql 접속 후 아래 명령으로 실행 가능
 # \i init_data.sql
 
