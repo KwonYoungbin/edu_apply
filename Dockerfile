@@ -21,10 +21,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app/
 
 # entrypoint.sh 복사
-COPY ./entrypoint.sh /app/entrypoint.sh
+COPY entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
-
-RUN ls -l /app/entrypoint.sh
 
 # 엔트리포인트 설정
 ENTRYPOINT ["sh", "/app/entrypoint.sh"]
