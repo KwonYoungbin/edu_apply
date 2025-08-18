@@ -74,11 +74,19 @@ https://www.docker.com -> 접속 후 Docker 설치
 ### 1. 저장소 클론
 ```bash
 git clone https://github.com/KwonYoungbin/edu_apply.git
-cd edu_apply
 ```
 
-### 2. 초기 데이터 추가
+### 2. 서비스 실행
 ```bash
+cd edu_apply
+docker-compose up --build
+```
+
+## 💽 초기 데이터 입력
+
+```bash
+‼️ "docker-compose up --build" 을 반드시 수행 후 입력 가능 (초기 테이블 생성) ‼️
+
 # # ========================================================
 # 0. Tag값 추가 (정적 데이터 20개) - 반드시 먼저 수행
 # # ========================================================
@@ -95,9 +103,4 @@ bash apps/seed.sh
 # 각각 명령어로 Test, Course 초기 데이터 (각 15,000개) Insert
 python manage.py seed_courses
 python manage.py seed_tests
-```
-
-### 3. 서비스 실행
-```bash
-docker-compose up --build
 ```

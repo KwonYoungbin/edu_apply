@@ -20,6 +20,7 @@ done
 
 echo "Collecting static files..."
 python manage.py collectstatic --noinput
+python manage.py loaddata apps/courses/tags.json
 
 echo "Starting Gunicorn..."
 exec gunicorn EduApply.wsgi:application --bind 0.0.0.0:8000
