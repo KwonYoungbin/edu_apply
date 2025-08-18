@@ -18,7 +18,7 @@ class BaseItemListAPIView(generics.ListAPIView):
             openapi.Parameter(
                 'status',
                 openapi.IN_QUERY,
-                description="검색 조건 (available: 시작 전, ongoing: 진행중, finished: 종료)",
+                description="검색 조건 (available: 신청 기간, before: 시작 전, finished: 종료)",
                 type=openapi.TYPE_STRING
             ),
             openapi.Parameter(
@@ -41,11 +41,11 @@ class BaseItemListAPIView(generics.ListAPIView):
         queryset = self.model_field.objects.all()
 
         status = self.request.query_params.get('status')
-        if status == 'available':   # 현재 시작 전인 시험만
-            queryset = queryset.filter(start_at__gt=now)
-        elif status == 'ongoing':   # 진행중인 시험
+        if status == 'available':   # 신청 기간
             queryset = queryset.filter(start_at__lte=now, end_at__gte=now)
-        elif status == 'finished':  # 종료된 시험
+        elif status == 'before':    # 시작 전
+            queryset = queryset.filter(start_at__gt=now)
+        elif status == 'finished':  # 종료
             queryset = queryset.filter(end_at__lt=now)
 
         sort = self.request.query_params.get('sort')
@@ -78,8 +78,8 @@ class BaseApplyAPIView(APIView):
         obj = get_object_or_404(self.model_field, id=id)
         now = timezone.now()
 
-        if now >= obj.start_at:
-            return error(f'이미 시작한 {self.model_field.__name__}은(는) 신청할 수 없습니다.')
+        if now < obj.start_at or now > obj.end_at:
+            return error(f'신청 가능한 기간이 아닙니다.')
 
         if self.registration_field.objects.filter(user=request.user, **{self.model_field.__name__.lower(): obj}).exists():
             return error(f'이미 신청한 {self.model_field.__name__}입니다.')
