@@ -41,12 +41,12 @@ Django를 기반으로 구현되었으며, PostgreSQL 데이터베이스를 사�
    - 수업 목록 조회(GET /courses)
    - 수업 수강 신청(POST /courses/:id/enroll)
    - 수업 수강 완료(POST /courses/:id/complete)
-   - 태그 기반 수업 추천(GET /courses/recommend)
+   - ** 태그 기반 수업 추천(GET /courses/recommend) **
 
 4. **결제**
    - 결제 내역 조회(GET /me/payments)
    - 결제 취소(POST /payments/:id/cancel)
-   - 수업/시험 동시 결제(POST /bulk/payment/apply)
+   - ** 수업/시험 동시 결제(POST /bulk/payment/apply) **
 
 ---
 
