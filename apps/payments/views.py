@@ -124,16 +124,16 @@ class BulkPaymentAPIView(GenericAPIView):
     def get_object_and_validate(self, user, target_type, target_id, now):
         if target_type == 'course':
             course = Course.objects.get(id=target_id)
-            if now >= course.start_at:
-                raise ValueError("이미 시작한 수업은 신청할 수 없습니다.")
+            if now < course.start_at or now > course.end_at:
+                raise ValueError("신청 가능한 기간이 아닌 시험/수업이 포함되어 있습니다.")
             if CourseRegistration.objects.filter(user=user, course=course).exists():
                 raise ValueError("이미 결제한 수업입니다.")
             CourseRegistration.objects.create(user=user, course=course)
             return 'C', course.title
         elif target_type == 'test':
             test = Test.objects.get(id=target_id)
-            if now >= test.start_at:
-                raise ValueError("이미 시작한 시험은 신청할 수 없습니다.")
+            if now < test.start_at or now > test.end_at:
+                raise ValueError("신청 가능한 기간이 아닌 시험/수업이 포함되어 있습니다.")
             if TestRegistration.objects.filter(user=user, test=test).exists():
                 raise ValueError("이미 신청한 시험입니다.")
             TestRegistration.objects.create(user=user, test=test)
