@@ -1,0 +1,22 @@
+[
+  {"model": "courses.tag", "pk": 1, "fields": {"name": "Python"}},
+  {"model": "courses.tag", "pk": 2, "fields": {"name": "Django"}},
+  {"model": "courses.tag", "pk": 3, "fields": {"name": "JavaScript"}},
+  {"model": "courses.tag", "pk": 4, "fields": {"name": "React"}},
+  {"model": "courses.tag", "pk": 5, "fields": {"name": "Vue"}},
+  {"model": "courses.tag", "pk": 6, "fields": {"name": "Node.js"}},
+  {"model": "courses.tag", "pk": 7, "fields": {"name": "AI"}},
+  {"model": "courses.tag", "pk": 8, "fields": {"name": "ML"}},
+  {"model": "courses.tag", "pk": 9, "fields": {"name": "Data Science"}},
+  {"model": "courses.tag", "pk": 10, "fields": {"name": "SQL"}},
+  {"model": "courses.tag", "pk": 11, "fields": {"name": "AWS"}},
+  {"model": "courses.tag", "pk": 12, "fields": {"name": "Azure"}},
+  {"model": "courses.tag", "pk": 13, "fields": {"name": "GCP"}},
+  {"model": "courses.tag", "pk": 14, "fields": {"name": "Docker"}},
+  {"model": "courses.tag", "pk": 15, "fields": {"name": "Kubernetes"}},
+  {"model": "courses.tag", "pk": 16, "fields": {"name": "Java"}},
+  {"model": "courses.tag", "pk": 17, "fields": {"name": "Spring"}},
+  {"model": "courses.tag", "pk": 18, "fields": {"name": "Flutter"}},
+  {"model": "courses.tag", "pk": 19, "fields": {"name": "iOS"}},
+  {"model": "courses.tag", "pk": 20, "fields": {"name": "Android"}}
+]

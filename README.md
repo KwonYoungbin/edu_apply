@@ -73,46 +73,30 @@ https://www.docker.com -> 접속 후 Docker 설치
 ### 1. 저장소 클론
 ```bash
 git clone https://github.com/KwonYoungbin/edu_apply.git
-```
-
-### 2. 서비스 실행(Docker Container)
-```bash
 cd edu_apply
-docker-compose up --build
 ```
 
-### 3. 초기 데이터 추가
+### 2. 초기 데이터 추가
 ```bash
-# =========================================
-# 3. 초기 데이터 추가 (Mac OS Terminal 기준)
-# =========================================
+# # ========================================================
+# 0. Tag값 추가 (정적 데이터 20개)
+# # ========================================================
+python manage.py loaddata apps/courses/tags.json
 
-# 0. PostgreSQL 설치 (설치되지 않은 경우)
-brew install postgresql
+# #  =======================================================
+# 1. Test, Course 초기 데이터(각 15,000개) 입력 - 아래 두 방식 중 택1 
+#  ⚠️ Courses 초기 데이터 입력시, 각 row별 Tag 매핑으로 인해 약간의 지연 발생 
+# # ========================================================
 
-# 1. PostgreSQL 접속
-# - Host: localhost
-# - Port: 5433
-# - User: root
-# - Database: edu_apply
-# - Password: 1234
-psql -h localhost -p 5433 -U root -d edu_apply
+# 명령어 한번에 Test, Course 초기 데이터 (각 15,000개) Insert
+bash apps/seed.sh
 
-# 2. 초기 데이터 SQL 파일 적용
-[init_data.sql 보기](init_data.sql)
-# psql 접속 후 아래 명령으로 실행 가능
-# \i init_data.sql
+# 각각 명령어로 Test, Course 초기 데이터 (각 15,000개) Insert
+python manage.py seed_courses
+python manage.py seed_tests
+```
 
-# =========================================
-# pgAdmin4 사용 시
-# =========================================
-# 1. pgAdmin 설치: https://www.pgadmin.org/download
-# 2. Servers -> Register -> Server 클릭
-#    Name: 자유롭게 입력
-#    Host name/address: localhost
-#    Port: 5433
-#    Maintenance DB: edu_apply
-#    Username: root
-#    Password: 1234
-# 3. pgAdmin에서 init_data.sql 실행
+### 3. 서비스 실행
+```bash
+docker-compose up --build
 ```
